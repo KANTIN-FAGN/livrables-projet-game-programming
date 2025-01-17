@@ -32,11 +32,6 @@ public class PlayerControllers : MonoBehaviour
         if (cameraTransform == null)
         {
             cameraTransform = Camera.main?.transform;
-            if (cameraTransform == null)
-            {
-                Debug.LogError(
-                    "Aucune caméra n'a été assignée au PlayerController, et aucune caméra principale n'est trouvée.");
-            }
         }
     }
 

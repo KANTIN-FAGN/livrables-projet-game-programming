@@ -1,0 +1,34 @@
+{
+    "name": "IA_RifleFire",
+    "maps": [
+        {
+            "name": "Sound",
+            "id": "a5decba9-b4b0-4a1a-81ea-0e3677f63539",
+            "actions": [
+                {
+                    "name": "Fire",
+                    "type": "Value",
+                    "id": "eee864b5-81b5-458f-8105-e582f5b1bd27",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b6fa01a8-c2b6-49ef-a6b0-a9fbc475d43c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
