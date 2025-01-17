@@ -14,6 +14,10 @@ public class PlayerControllers : MonoBehaviour
 
     [SerializeField] private float mouseSensitivity = 75f;
 
+    [Header("Ground Check Settings")] [SerializeField]
+    private float groundCheckDistance = 0.1f; 
+    [SerializeField] private LayerMask groundLayer; 
+    
     private IA_Player inputActions;
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -21,7 +25,6 @@ public class PlayerControllers : MonoBehaviour
 
     private Rigidbody rb;
     private float pitch = 0f;
-
 
     private void Awake()
     {
@@ -63,7 +66,10 @@ public class PlayerControllers : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if (IsGrounded())
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     private void Update()
@@ -72,8 +78,8 @@ public class PlayerControllers : MonoBehaviour
 
         float yaw = lookInput.x * mouseSensitivity * Time.deltaTime;
         pitch -= lookInput.y * mouseSensitivity * Time.deltaTime;
-        pitch = Mathf.Clamp(pitch, -90f, 90f); 
-        
+        pitch = Mathf.Clamp(pitch, -90f, 90f);
+
         if (cameraTransform != null)
         {
             cameraTransform.localRotation = Quaternion.Euler(pitch, 0, 0);
@@ -85,14 +91,19 @@ public class PlayerControllers : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
-        
+
         Vector3 moveDirection = cameraTransform.forward * moveInput.y + cameraTransform.right * moveInput.x;
         moveDirection.y = 0f;
 
         rb.linearVelocity = new Vector3(
             moveDirection.normalized.x * speed,
-            rb.linearVelocity.y, 
+            rb.linearVelocity.y,
             moveDirection.normalized.z * speed
         );
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
     }
 }
