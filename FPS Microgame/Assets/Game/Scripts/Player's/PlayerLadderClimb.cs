@@ -7,7 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerLadderClimb : MonoBehaviour
 {
     public float climbSpeed = 5f;
-    private bool isClimbing = false; 
+    private bool isClimbing; 
 
     private IA_Player inputActions;
     private InputAction moveAction;
