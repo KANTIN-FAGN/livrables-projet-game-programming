@@ -1,12 +1,16 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class RifleFire : MonoBehaviour
 {
     [Header("Sound Configuration")] [SerializeField]
-    private AudioSource gunFire; 
+    private AudioSource gunFire;
 
-    private IA_RifleFire inputActions; 
+    [SerializeField] private GameObject handgun;
+    [SerializeField] private bool canFire;
+
+    private IA_RifleFire inputActions;
     private InputAction fireAction;
 
     private void Awake()
@@ -36,7 +40,31 @@ public class RifleFire : MonoBehaviour
     {
         if (gunFire != null)
         {
-            gunFire.Play(); // Jouer le son du tir
+            gunFire.Play();
         }
+
+        if (canFire)
+        {
+            canFire = false; 
+            StartCoroutine(FiringBullet()); 
+        }
+    }
+
+    IEnumerator FiringBullet()
+    {
+        Animator animator = handgun.GetComponent<Animator>();
+
+        if (animator != null) // Vérifie si l'Animator existe
+        {
+            animator.SetTrigger("RifleFire");
+        }
+        else
+        {
+            Debug.LogWarning("Aucun Animator trouvé sur l'objet Handgun !");
+        }
+
+        // Attendre un délai pour réactiver le tir
+        yield return new WaitForSeconds(0.4f);
+        canFire = true;
     }
 }
