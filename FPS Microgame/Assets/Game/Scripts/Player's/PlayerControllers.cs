@@ -15,9 +15,10 @@ public class PlayerControllers : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 75f;
 
     [Header("Ground Check Settings")] [SerializeField]
-    private float groundCheckDistance = 0.1f; 
-    [SerializeField] private LayerMask groundLayer; 
-    
+    private float groundCheckDistance = 1f;
+
+    [SerializeField] private LayerMask groundLayer;
+
     private IA_Player inputActions;
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -104,6 +105,13 @@ public class PlayerControllers : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
+        // Position initiale légèrement abaissée pour plus de précision
+        Vector3 rayOrigin = transform.position + Vector3.down * 0.5f;
+
+        // Visualisation du rayon pour debug
+        Debug.DrawRay(rayOrigin, Vector3.down * groundCheckDistance, Color.red);
+
+        // Vérifie si le rayon touche un objet de la couche définie dans groundLayer
+        return Physics.Raycast(rayOrigin, Vector3.down, groundCheckDistance, groundLayer);
     }
 }
